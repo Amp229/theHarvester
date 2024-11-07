@@ -25,6 +25,7 @@ from theHarvester.discovery import (
     certspottersearch,
     criminalip,
     crtsh,
+    certsio,
     dnsdumpster,
     dnssearch,
     duckduckgosearch,
@@ -149,7 +150,7 @@ async def start(rest_args: argparse.Namespace | None = None):
         '-b',
         '--source',
         help="""anubis, baidu, bevigil, binaryedge, bing, bingapi, bufferoverun, brave,
-                            censys, certspotter, criminalip, crtsh, dnsdumpster, duckduckgo, fullhunt, github-code,
+                            censys, certspotter, criminalip, crtsh, certsio, dnsdumpster, duckduckgo, fullhunt, github-code,
                             hackertarget, hunter, hunterhow, intelx, netlas, onyphe, otx, pentesttools, projectdiscovery,
                             rapiddns, rocketreach, securityTrails, sitedossier, subdomaincenter, subdomainfinderc99, threatminer, tomba,
                             urlscan, virustotal, yahoo, zoomeye""",
@@ -508,6 +509,15 @@ async def start(rest_args: argparse.Namespace | None = None):
                         stor_lst.append(store(crtsh_search, 'CRTsh', store_host=True))
                     except Exception as e:
                         print(f'[!] A timeout occurred with crtsh, cannot find {args.domain}\n {e}')
+
+                elif engineitem == "certsio":
+                    try:
+                        certsio_search = certsio.SearchCertsio(word)
+                        stor_lst.append(store(certsio_search, "certsio", store_host=True))
+                    except Exception as e:
+                        print(
+                            f"[!] A timeout occurred with certsio, cannot find {args.domain}\n {e}"
+                        )
 
                 elif engineitem == 'dnsdumpster':
                     try:
